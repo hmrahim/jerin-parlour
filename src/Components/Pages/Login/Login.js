@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import login from "../../../image/5098293.jpg";
 import { useForm } from "react-hook-form";
 import { 
@@ -11,6 +11,7 @@ import auth from "../../../firebase.init";
 import { toast } from "react-toastify";
 
 const Login = () => {
+    
     const [SignInWithEmailAndPassword,loginUser,loginLoading,loginError] = useSignInWithEmailAndPassword(auth)
     const [signInWithGoogle,googleUser,googleLoading,googleError] = useSignInWithGoogle(auth)
     const {
@@ -19,6 +20,15 @@ const Login = () => {
         handleSubmit,
         reset
       } = useForm();
+
+      const location = useLocation()
+      const navigate = useNavigate()
+      const from = location?.state?.from?.pathname || "/"
+
+      if(loginUser || googleUser){
+          navigate(from,{replace:true})
+
+      }
 
     const onSubmit = data => {
         SignInWithEmailAndPassword(data.email,data.password)
@@ -33,7 +43,7 @@ const Login = () => {
     const googleLogin = ()=> {
         signInWithGoogle()
         .then(()=> {
-            toast.success("Login succesfully")
+            toast.success("Login sucessfully")
         })
     }
 
