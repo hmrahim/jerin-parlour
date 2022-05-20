@@ -17,6 +17,9 @@ const VerifyEmai = () => {
                 : 
                 <button onClick={sendEmail} className='btn btn-accent btn-sm mt-5 capitalize'>Send email again</button>
             }
+            {
+                VerifyError && <span class="label-text-alt">VerifyError.messages</span>
+            }
              
 
             </div>

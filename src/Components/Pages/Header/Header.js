@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Home from "../Home/Home";
 import logo from "../../../image/Group 33092.png"
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import auth from "../../../firebase.init";
 import { signOut } from "firebase/auth";
@@ -86,12 +86,22 @@ const Header = ({children}) => {
    
     </>
   );
+
+  const {pathname} = useLocation()
+  console.log(pathname);
   return (
     <div class="drawer drawer-end" data-theme={dark ? "dark" : "light"}>
       <input id="my-drawer-3" type="checkbox" class="drawer-toggle" />
       <div class="drawer-content flex flex-col ">
         {/* <!-- Navbar --> */}
         <div class="w-full navbar bg-base-100 lg:w-11/12 mx-auto px-6">
+          {
+            pathname == "/dashboard" &&  <label for="my-drawer-2" tabindex="0" class="btn btn-ghost btn-circle  md:hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" /></svg>
+          </label>
+          }
+       
+       
           <div class="flex-1 px-2 mx-2">
             <img src={logo} width={127} alt="" />
           </div>
