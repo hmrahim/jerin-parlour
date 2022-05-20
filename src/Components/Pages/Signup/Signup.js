@@ -4,7 +4,8 @@ import { useForm } from "react-hook-form";
 import { 
     useCreateUserWithEmailAndPassword,
     useSignInWithGoogle,
-    useUpdateProfile
+    useUpdateProfile,
+    useSendEmailVerification
  } from "react-firebase-hooks/auth";
 import auth from "../../../firebase.init";
 import { toast } from "react-toastify";
@@ -14,6 +15,9 @@ const Signup = () => {
     useCreateUserWithEmailAndPassword(auth);
     const [signInWithGoogle, googleUser, googleLoading, googleError] = useSignInWithGoogle(auth);
     const [updateProfile, updating, updateError] = useUpdateProfile(auth);
+    const [sendEmailVerification, sending, VerifyError] = useSendEmailVerification(
+        auth
+      );
   const {
     register,
     formState: { errors },
@@ -29,8 +33,9 @@ if(EmailUser || googleUser){
     createUserWithEmailAndPassword(data.email, data.password)
     .then(()=> {
        updateProfile({displayName:data.name})
-       .then(()=> {
-        toast.success("Sugnup successfully!");
+       .then(async()=> {
+        toast.success("Verification Email sent to your email, Please verify your account");
+        await sendEmailVerification()
         reset();
        })
         
